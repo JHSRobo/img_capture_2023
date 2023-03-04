@@ -1,2 +1,2 @@
-# img_capture
-Repository for image management on Opside
+# Image Capture
+Repository for capturing frames from cameras on Opside
