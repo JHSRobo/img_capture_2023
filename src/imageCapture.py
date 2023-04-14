@@ -2,6 +2,7 @@
 
 import cv2
 import rospy
+from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from img_capture.msg import controlData
 import os
@@ -11,15 +12,17 @@ path = "/home/jhsrobo/ROVMIND/ros_workspace/src/img_capture/img"
 count = 1
 coralCount = 1
 coralMode = False
+bridge = CvBridge()
 
 def img_callback(screenshot):
     global path, count, coralCount, coralMode
-        if coralMode:
-            cv2.imwrite("{}/coral/{}.png".format(path, coralCount), screenshot)
-            coralCount += 1
-        else:
-            cv2.imwrite("{}/{}.png".format(path, count), screenshot)
-            count += 1
+    img = bridge.imgmsg_to_cv2(screenshot, desired_encoding='passthrough')
+    if coralMode:
+        cv2.imwrite("{}/coral/{}.png".format(path, coralCount), img)
+        coralCount += 1
+    else:
+        cv2.imwrite("{}/{}.png".format(path, count), img)
+        count += 1
 
 def control_callback(controlData):
     global coralMode
