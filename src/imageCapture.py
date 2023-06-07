@@ -18,7 +18,8 @@ def img_callback(screenshot):
     global path, count, coralCount, coralMode
     img = bridge.imgmsg_to_cv2(screenshot, desired_encoding='passthrough')
     if coralMode:
-        cv2.imwrite("{}/coral/{}.png".format(path, coralCount), img)
+        cropped_img = img[30:720, 0:880]
+        cv2.imwrite("{}/coral/{}.png".format(path, coralCount), cropped_img)
         coralCount += 1
     else:
         cv2.imwrite("{}/{}.png".format(path, count), img)
